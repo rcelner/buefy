@@ -9,6 +9,7 @@
             :icon="icon"
             :icon-pack="iconPack"
             :maxlength="maxlength"
+            :input-styles="inputStyles"
             autocomplete="off"
             v-bind="$attrs"
             @focus="focused"
@@ -76,7 +77,8 @@
             },
             keepFirst: Boolean,
             clearOnSelect: Boolean,
-            openOnFocus: Boolean
+            openOnFocus: Boolean,
+            inputStyles: Object
         },
         data() {
             return {

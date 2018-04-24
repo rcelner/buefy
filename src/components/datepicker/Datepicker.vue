@@ -20,6 +20,8 @@
                 :loading="loading"
                 :disabled="disabled"
                 :readonly="readonly"
+                :input-styles="inputStyles"
+                :icon-styles="iconStyles"
                 v-bind="$attrs"
                 @change.native="onChange($event.target.value)"
                 @focus="$emit('focus', $event)"
@@ -267,7 +269,9 @@
             indicators: {
                 type: String,
                 default: 'dots'
-            }
+            },
+            inputStyles: Object,
+            iconStyles: Object
         },
         data() {
             const focusedDate = this.value || this.focusedDate || new Date()

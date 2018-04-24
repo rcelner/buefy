@@ -2,6 +2,11 @@
     <div v-if="attached && closable" class="tags has-addons">
         <span
             class="tag"
+            :style="{
+                fontSize: tagStyles.fontSize,
+                fontFamily: tagStyles.fontFamily,
+                height: tagStyles.height
+            }"
             :class="[type, size, { 'is-rounded': rounded }]">
             <slot/>
         </span>
@@ -11,6 +16,11 @@
             :tabindex="tabstop ? 0 : false"
             :disabled="disabled"
             :class="[size, { 'is-rounded': rounded }]"
+            :style="{
+                fontSize: tagStyles.fontSize,
+                fontFamily: tagStyles.fontFamily,
+                height: tagStyles.height
+            }"
             @click="close()"
             @keyup.delete.prevent="close()"
         />
@@ -18,6 +28,11 @@
     <span
         v-else
         class="tag"
+        :style="{
+            fontSize: tagStyles.fontSize,
+            fontFamily: tagStyles.fontFamily,
+            height: tagStyles.height
+        }"
         :class="[type, size, { 'is-rounded': rounded }]">
         <slot/>
 
@@ -27,6 +42,11 @@
             class="delete is-small"
             :disabled="disabled"
             :tabindex="tabstop ? 0 : false"
+            :style="{
+                fontSize: tagStyles.fontSize,
+                fontFamily: tagStyles.fontFamily,
+                height: tagStyles.height
+            }"
             @click="close()"
             @keyup.delete.prevent="close()"
         />
@@ -46,7 +66,8 @@
             tabstop: {
                 type: Boolean,
                 default: true
-            }
+            },
+            tagStyles: Object
         },
         methods: {
             /**
