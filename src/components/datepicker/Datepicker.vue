@@ -20,6 +20,8 @@
                 :loading="loading"
                 :disabled="disabled"
                 :readonly="readonly"
+                :input-styles="inputStyles"
+                :icon-styles="iconStyles"
                 v-bind="$attrs"
                 @change.native="onChange($event.target.value)"
                 @focus="$emit('focus', $event)"
@@ -239,7 +241,10 @@
                     if (typeof config.defaultDateFormatter === 'function') {
                         return config.defaultDateFormatter(date)
                     } else {
-                        return date.toLocaleDateString()
+                        const dateUTC = new Date(Date.UTC(
+                            date.getFullYear(), date.getMonth(), date.getDate()
+                        ))
+                        return dateUTC.toLocaleDateString()
                     }
                 }
             },
@@ -264,7 +269,9 @@
             indicators: {
                 type: String,
                 default: 'dots'
-            }
+            },
+            inputStyles: Object,
+            iconStyles: Object
         },
         data() {
             const focusedDate = this.value || this.focusedDate || new Date()

@@ -9,6 +9,7 @@
             :autocomplete="newAutocomplete"
             :maxlength="maxlength"
             :value="newValue"
+            :style="inputStyles"
             v-bind="$attrs"
             @input="onInput"
             @blur="onBlur"
@@ -21,6 +22,7 @@
             :class="inputClasses"
             :maxlength="maxlength"
             :value="newValue"
+            :style="inputStyles"
             v-bind="$attrs"
             @input="onInput"
             @blur="onBlur"
@@ -30,6 +32,7 @@
             v-if="icon"
             class="is-left"
             :icon="icon"
+            :style="iconStyles"
             :pack="iconPack"
             :size="iconSize"/>
 
@@ -38,6 +41,7 @@
             class="is-right"
             :class="{ 'is-clickable': passwordReveal }"
             :icon="passwordReveal ? passwordVisibleIcon : statusTypeIcon"
+            :style="iconStyles"
             :pack="iconPack"
             :size="iconSize"
             :type="!passwordReveal ? statusType : 'is-primary'"
@@ -75,7 +79,9 @@
             hasCounter: {
                 type: Boolean,
                 default: true
-            }
+            },
+            inputStyles: Object,
+            iconStyles: Object
         },
         data() {
             return {

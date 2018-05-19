@@ -4,7 +4,9 @@
             class="taginput-container"
             :class="[statusType, size, containerClasses]"
             :disabled="disabled"
+            :style="{ borderColor: inputStyles.borderColor || null }"
             @click="hasInput && focus($event)">
+
             <b-tag
                 v-for="(tag, index) in tags"
                 :key="index"
@@ -14,6 +16,7 @@
                 :attached="attached"
                 :tabstop="false"
                 :disabled="disabled"
+                :tag-styles="inputStyles"
                 closable
                 @close="removeTag(index)">
                 {{ getNormalizedTagText(tag) }}
@@ -33,6 +36,7 @@
                 :size="size"
                 :disabled="disabled"
                 :loading="loading"
+                :input-styles="inputStyles"
                 keep-first
                 @focus="onFocus"
                 @blur="customOnBlur"
@@ -110,7 +114,8 @@
                 type: Array,
                 default: () => [8]
             },
-            allowNew: Boolean
+            allowNew: Boolean,
+            inputStyles: Object
         },
         data() {
             return {
@@ -166,6 +171,10 @@
             }
         },
         watch: {
+            data(value) {
+                this.data = value
+            },
+
             /**
              * When v-model is changed set internal value.
              */
