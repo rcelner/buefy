@@ -4,7 +4,9 @@
             class="taginput-container"
             :class="[statusType, size, containerClasses]"
             :disabled="disabled"
+            :style="{ borderColor: inputStyles.borderColor || null }"
             @click="hasInput && focus($event)">
+
             <b-tag
                 v-for="(tag, index) in tags"
                 :key="index"
