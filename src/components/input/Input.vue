@@ -49,7 +49,7 @@
             @click.native="togglePasswordVisibility"/>
 
         <small
-            v-if="maxlength && hasCounter"
+            v-if="maxlength && hasCounter && type !== 'number'"
             class="help counter"
             :class="{ 'is-invisible': !isFocused }">
             {{ valueLength }} / {{ maxlength }}
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-    import Icon from '../icon'
+    import Icon from '../icon/Icon'
     import config from '../../utils/config'
     import FormElementMixin from '../../utils/FormElementMixin'
 
@@ -159,7 +159,12 @@
              * Get value length
              */
             valueLength() {
-                return this.newValue ? this.newValue.length : 0
+                if (typeof this.newValue === 'string') {
+                    return this.newValue.length
+                } else if (typeof this.newValue === 'number') {
+                    return this.newValue.toString().length
+                }
+                return 0
             }
         },
         watch: {

@@ -143,11 +143,12 @@
     import { isMobile } from '../../utils/helpers'
     import config from '../../utils/config'
 
-    import { Dropdown, DropdownItem } from '../dropdown'
-    import Input from '../input'
-    import Field from '../field'
-    import Select from '../select'
-    import Icon from '../icon'
+    import Dropdown from '../dropdown/Dropdown'
+    import DropdownItem from '../dropdown/DropdownItem'
+    import Input from '../input/Input'
+    import Field from '../field/Field'
+    import Select from '../select/Select'
+    import Icon from '../icon/Icon'
     import DatepickerTable from './DatepickerTable'
 
     export default {
@@ -241,10 +242,11 @@
                     if (typeof config.defaultDateFormatter === 'function') {
                         return config.defaultDateFormatter(date)
                     } else {
-                        const dateUTC = new Date(Date.UTC(
-                            date.getFullYear(), date.getMonth(), date.getDate()
-                        ))
-                        return dateUTC.toLocaleDateString()
+                        const yyyyMMdd = date.getFullYear() +
+                            '/' + (date.getMonth() + 1) +
+                            '/' + date.getDate()
+                        const d = new Date(yyyyMMdd)
+                        return d.toLocaleDateString()
                     }
                 }
             },
