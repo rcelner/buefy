@@ -8,7 +8,9 @@
                 height: tagStyles.height
             }"
             :class="[type, size, { 'is-rounded': rounded }]">
-            <slot/>
+            <span :class="{ 'has-ellipsis': ellipsis }">
+                <slot/>
+            </span>
         </span>
         <a
             class="tag is-delete"
@@ -34,7 +36,9 @@
             height: tagStyles.height
         }"
         :class="[type, size, { 'is-rounded': rounded }]">
-        <slot/>
+        <span :class="{ 'has-ellipsis': ellipsis }">
+            <slot/>
+        </span>
 
         <a
             v-if="closable"
@@ -63,6 +67,7 @@
             size: String,
             rounded: Boolean,
             disabled: Boolean,
+            ellipsis: Boolean,
             tabstop: {
                 type: Boolean,
                 default: true

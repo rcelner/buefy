@@ -54,13 +54,18 @@
             </li>
         </ul>
         <small class="info" v-if="simple">
-            {{ firstItem }}-{{ Math.min(current * perPage, total) }} / {{ total }}
+            <template v-if="perPage == 1">
+                {{ firstItem }} / {{ total }}
+            </template>
+            <template v-else>
+                {{ firstItem }}-{{ Math.min(current * perPage, total) }} / {{ total }}
+            </template>
         </small>
     </div>
 </template>
 
 <script>
-    import Icon from '../icon'
+    import Icon from '../icon/Icon'
 
     export default {
         name: 'BPagination',

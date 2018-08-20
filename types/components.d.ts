@@ -118,6 +118,8 @@ export declare type SnackbarConfig = {
     duration?: number;
     container?: string;
     actionText?: string | null;
+    queue?: boolean;
+    indefinite?: boolean;
     onAction?: () => any;
 }
 export declare const Snackbar: {
@@ -151,6 +153,11 @@ export declare type ToastConfig = {
      * to absolute. Meaning that the container should be fixed.
      */
     container?: string;
+    
+    /**
+     * disable queue
+     */
+    queue?: boolean;
 }
 
 export declare const Toast: {

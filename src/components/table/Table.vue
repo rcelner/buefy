@@ -19,7 +19,10 @@
                     <tr>
                         <th v-if="detailed" width="40px"/>
                         <th class="checkbox-cell" v-if="checkable">
-                            <b-checkbox :value="isAllChecked" @change.native="checkAll"/>
+                            <b-checkbox
+                                :value="isAllChecked"
+                                :disabled="isAllUncheckable"
+                                @change.native="checkAll"/>
                         </th>
                         <th
                             v-for="(column, index) in newColumns"
@@ -145,7 +148,7 @@
             </table>
         </div>
 
-        <div v-if="checkable || paginated" class="level">
+        <div v-if="(checkable && hasBottomLeftSlot()) || paginated" class="level">
             <div class="level-left">
                 <slot name="bottom-left"/>
             </div>
@@ -167,21 +170,22 @@
 
 <script>
     import { getValueByPath, indexOf } from '../../utils/helpers'
-    import { Checkbox as BCheckbox } from '../checkbox'
-    import BPagination from '../pagination'
-    import BIcon from '../icon'
 
-    import BTableMobileSort from './TableMobileSort'
-    import BTableColumn from './TableColumn'
+    import Checkbox from '../checkbox/Checkbox'
+    import Icon from '../icon/Icon'
+    import Pagination from '../pagination/Pagination'
+
+    import TableMobileSort from './TableMobileSort'
+    import TableColumn from './TableColumn'
 
     export default {
         name: 'BTable',
         components: {
-            BPagination,
-            BIcon,
-            BCheckbox,
-            BTableMobileSort,
-            BTableColumn
+            [Checkbox.name]: Checkbox,
+            [Icon.name]: Icon,
+            [Pagination.name]: Pagination,
+            [TableMobileSort.name]: TableMobileSort,
+            [TableColumn.name]: TableColumn
         },
         props: {
             data: {
@@ -306,10 +310,20 @@
             isAllChecked() {
                 const validVisibleData = this.visibleData.filter(
                         (row) => this.isRowCheckable(row))
+                if (validVisibleData.length === 0) return false
                 const isAllChecked = validVisibleData.some((currentVisibleRow) => {
                     return indexOf(this.newCheckedRows, currentVisibleRow, this.customIsChecked) < 0
                 })
                 return !isAllChecked
+            },
+
+            /**
+             * Check if all rows in the page are checkable.
+             */
+            isAllUncheckable() {
+                const validVisibleData = this.visibleData.filter(
+                        (row) => this.isRowCheckable(row))
+                return validVisibleData.length === 0
             },
 
             /**
@@ -391,10 +405,12 @@
                     this.initSort()
                     this.firstTimeSort = false
                 } else if (newColumns.length) {
-                    for (let i = 0; i < newColumns.length; i++) {
-                        if (newColumns[i].newKey === this.currentSortColumn.newKey) {
-                            this.currentSortColumn = newColumns[i]
-                            break
+                    if (this.currentSortColumn.field) {
+                        for (let i = 0; i < newColumns.length; i++) {
+                            if (newColumns[i].field === this.currentSortColumn.field) {
+                                this.currentSortColumn = newColumns[i]
+                                break
+                            }
                         }
                     }
                 }
@@ -619,6 +635,13 @@
                 if (tag !== 'th' && tag !== 'td') return false
 
                 return true
+            },
+
+            /**
+             * Check if bottom-left slot exists.
+             */
+            hasBottomLeftSlot() {
+                return typeof this.$slots['bottom-left'] !== 'undefined'
             },
 
             /**
